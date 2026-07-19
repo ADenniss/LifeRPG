@@ -758,6 +758,67 @@ footer {
   text-align: left;
 }
 
+.continue-button {
+  position: relative;
+  width: 100%;
+  margin-bottom: 19px;
+  padding: 15px 48px 15px 17px;
+  border: 1px solid var(--ink);
+  background: var(--yellow);
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+.continue-button:hover,
+.continue-button:focus-visible {
+  outline: 0;
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: translate(-2px, -2px);
+}
+
+.continue-button span {
+  display: block;
+  margin-bottom: 3px;
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.continue-button strong {
+  font-family: "Newsreader", serif;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.continue-button i {
+  position: absolute;
+  top: 50%;
+  right: 19px;
+  font-size: 21px;
+  font-style: normal;
+  transform: translateY(-50%);
+}
+
+.resume-separator {
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.09em;
+}
+
+.resume-separator::before,
+.resume-separator::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+}
+
 .name-entry {
   display: grid;
   grid-template-columns: 1fr auto;

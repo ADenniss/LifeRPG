@@ -5,7 +5,120 @@ const statDefinitions = [
   { key: "bonds", label: "BONDS", icon: "∞" },
 ];
 
+const GAME_VERSION = 4;
+
 const chapters = [
+  {
+    age: 0,
+    stage: "BEGINNING",
+    title: "A life begins.",
+    type: "BIRTH",
+    copy: "Before plans, careers, or accomplishments, there is a first breath. Everything is new. Every stat begins at zero. From here, a whole human life will be built choice by choice.",
+    quote: "Every person begins as pure possibility.",
+    caption: "THE FIRST BREATH",
+    symbol: "○",
+    color: "#d98964",
+    choices: [
+      {
+        title: "Reach toward the light",
+        copy: "Meet the unfamiliar world with quiet curiosity.",
+        cost: 0,
+        effects: { wisdom: 3, purpose: 2, vitality: 1 },
+        tags: { scholar: 1, explorer: 1 },
+        memory: "From your first moments, your attention reached outward.",
+      },
+      {
+        title: "Hold the waiting hand",
+        copy: "Let your earliest certainty be another person's warmth.",
+        cost: 0,
+        effects: { bonds: 5, vitality: 2, purpose: 1 },
+        tags: { connector: 1 },
+        memory: "Your life began with the knowledge that you were not alone.",
+      },
+      {
+        title: "Cry with all your might",
+        copy: "Announce yourself with breath, force, and stubborn life.",
+        cost: 0,
+        effects: { vitality: 5, purpose: 1, wisdom: 1 },
+        tags: { survivor: 1 },
+        memory: "You arrived loudly, already determined to be here.",
+      },
+    ],
+  },
+  {
+    age: 6,
+    stage: "CHILDHOOD",
+    title: "The world is still enormous.",
+    type: "FIRST MEMORY",
+    copy: "Your life begins in a world of scraped knees, long afternoons, and questions no grown-up answers properly. Even now, small choices are becoming you.",
+    quote: "Before you knew what a path was, you were already making one.",
+    caption: "THE FIRST SPARK",
+    symbol: "✦",
+    color: "#e4a74c",
+    choices: [
+      {
+        title: "Ask one hundred questions",
+        copy: "Follow every why until the adults run out of answers.",
+        cost: 0,
+        effects: { wisdom: 8, purpose: 4, vitality: 2 },
+        tags: { scholar: 2 },
+        memory: "You met the world with an endless supply of questions.",
+      },
+      {
+        title: "Make room for a shy kid",
+        copy: "Share the space beside you and make the first hello.",
+        cost: 0,
+        effects: { bonds: 10, purpose: 3, vitality: 3 },
+        tags: { connector: 2 },
+        memory: "Your first great gift was making someone feel included.",
+      },
+      {
+        title: "Build a secret hideout",
+        copy: "Turn blankets, branches, and imagination into a kingdom.",
+        cost: 0,
+        effects: { vitality: 7, wisdom: 4, purpose: 4 },
+        tags: { builder: 2, explorer: 1 },
+        memory: "You built a world of your own and appointed yourself its keeper.",
+      },
+    ],
+  },
+  {
+    age: 13,
+    stage: "DISCOVERY",
+    title: "You begin choosing who to be.",
+    type: "GROWING PAINS",
+    copy: "The safe little world of childhood stretches and cracks. You notice how others see you—and discover that their version does not have to be yours.",
+    quote: "Becoming yourself begins with trying on many selves.",
+    caption: "FINDING A VOICE",
+    symbol: "~",
+    color: "#8ca4b2",
+    choices: [
+      {
+        title: "Join the team",
+        copy: "Work weekends to buy your gear, then learn how to show up together.",
+        cost: 10,
+        effects: { vitality: 9, bonds: 7, purpose: 3 },
+        tags: { connector: 1, survivor: 1 },
+        memory: "You learned that belonging could be practiced.",
+      },
+      {
+        title: "Disappear into books",
+        copy: "Help shelve books after school and find secret doors between two covers.",
+        cost: 15,
+        effects: { wisdom: 10, purpose: 5, bonds: -2 },
+        tags: { scholar: 2, explorer: 1 },
+        memory: "You lived a hundred borrowed lives before starting your own.",
+      },
+      {
+        title: "Start a tiny business",
+        copy: "Turn a small talent into your first earned dollars.",
+        cost: 35,
+        effects: { purpose: 7, wisdom: 5, vitality: -2 },
+        tags: { achiever: 2, builder: 1 },
+        memory: "Your first customer made possibility feel real.",
+      },
+    ],
+  },
   {
     age: 18,
     stage: "BECOMING",
@@ -192,10 +305,47 @@ const chapters = [
     ],
   },
   {
-    age: 68,
-    stage: "LEGACY",
+    age: 64,
+    stage: "REINVENTION",
+    title: "The old map ends here.",
+    type: "NEW SEASON",
+    copy: "For years, your calendar told you who to be. Now an unfamiliar space opens. It could feel like an ending—or like time returned to its owner.",
+    quote: "It is never too late to become a beginner again.",
+    caption: "ANOTHER BEGINNING",
+    symbol: "↻",
+    color: "#8b8067",
+    choices: [
+      {
+        title: "Open the little shop",
+        copy: "Give an old daydream a front door and opening hours.",
+        cost: -30,
+        effects: { purpose: 14, wisdom: 6, vitality: 4 },
+        tags: { builder: 2, achiever: 1 },
+        memory: "You became a beginner again and loved the clumsy freedom of it.",
+      },
+      {
+        title: "Care for someone you love",
+        copy: "Let the next season be measured in presence.",
+        cost: -20,
+        effects: { bonds: 17, wisdom: 10, vitality: -5 },
+        tags: { connector: 2, mentor: 1 },
+        memory: "You gave unhurried time when it mattered most.",
+      },
+      {
+        title: "Consult on your own terms",
+        copy: "Keep the useful parts of work and leave the rest behind.",
+        cost: 35,
+        effects: { wisdom: 8, purpose: 8, vitality: 6 },
+        tags: { mentor: 2, achiever: 1 },
+        memory: "You made experience serve your life instead of consuming it.",
+      },
+    ],
+  },
+  {
+    age: 74,
+    stage: "LATE LIGHT",
     title: "The view from here.",
-    type: "FINAL CHAPTER",
+    type: "LIFE EVENT",
     copy: "The years behind you no longer look like a list of achievements. They look like faces, chances taken, ordinary mornings, and the person your choices made.",
     quote: "In the end, a life is not counted. It is felt.",
     caption: "ONE MORE MORNING",
@@ -225,6 +375,43 @@ const chapters = [
         effects: { vitality: 10, purpose: 20, wisdom: 7 },
         tags: { explorer: 3 },
         memory: "You stayed curious all the way to the horizon.",
+      },
+    ],
+  },
+  {
+    age: 88,
+    stage: "LEGACY",
+    title: "One ordinary morning remains.",
+    type: "FINAL CHAPTER",
+    copy: "Sunlight crosses the room slowly. There is nowhere else you need to be. Your life is no longer a question waiting to be answered—it is the answer you made.",
+    quote: "The days were long. The life was brief. It was yours.",
+    caption: "THE LIFE YOU MADE",
+    symbol: "☼",
+    color: "#d98964",
+    choices: [
+      {
+        title: "Gather everyone close",
+        copy: "Fill the room with names, noise, stories, and hands.",
+        cost: -25,
+        effects: { bonds: 16, purpose: 9, vitality: 2 },
+        tags: { connector: 2, mentor: 1 },
+        memory: "You ended where every human story begins: among other people.",
+      },
+      {
+        title: "Make peace with unfinished things",
+        copy: "Let an imperfect life be whole without being complete.",
+        cost: 0,
+        effects: { wisdom: 15, vitality: 7, purpose: 8 },
+        tags: { survivor: 1, scholar: 1 },
+        memory: "You forgave the unfinished parts and called the whole thing enough.",
+      },
+      {
+        title: "Watch one more sunrise",
+        copy: "Meet the familiar world with undiminished wonder.",
+        cost: -5,
+        effects: { purpose: 14, wisdom: 8, vitality: 4 },
+        tags: { explorer: 2, gardener: 1 },
+        memory: "At the end, you still found the world worth watching.",
       },
     ],
   },
@@ -290,15 +477,16 @@ const endings = [
 ];
 
 const freshState = () => ({
+  version: GAME_VERSION,
   name: "Rowan",
   started: false,
   chapter: 0,
   ended: false,
-  dollars: 80,
-  vitality: 52,
-  purpose: 48,
-  wisdom: 42,
-  bonds: 50,
+  dollars: 0,
+  vitality: 0,
+  purpose: 0,
+  wisdom: 0,
+  bonds: 0,
   tags: {
     scholar: 0,
     builder: 0,
@@ -314,6 +502,7 @@ const freshState = () => ({
 
 let state = freshState();
 let soundEnabled = true;
+let savedProgress = null;
 
 const elements = {
   age: document.querySelector("#age-value"),
@@ -322,6 +511,8 @@ const elements = {
   chapterLabel: document.querySelector("#chapter-label"),
   chapterProgress: document.querySelector("#chapter-progress"),
   choices: document.querySelector("#choices"),
+  continueButton: document.querySelector("#continue-button"),
+  continueLabel: document.querySelector("#continue-label"),
   dollarCount: document.querySelector("#dollar-count"),
   copyEnding: document.querySelector("#copy-ending"),
   endingCopy: document.querySelector("#ending-copy"),
@@ -346,6 +537,7 @@ const elements = {
   playerName: document.querySelector("#player-name"),
   playerTitle: document.querySelector("#player-title"),
   restart: document.querySelector("#restart-button"),
+  resumeSeparator: document.querySelector("#resume-separator"),
   sound: document.querySelector("#sound-toggle"),
   stageLabel: document.querySelector("#stage-label"),
   stats: document.querySelector("#stats"),
@@ -513,18 +705,32 @@ function startLife() {
   state = freshState();
   state.name = name || "Rowan";
   state.started = true;
+  savedProgress = null;
   elements.introModal.hidden = true;
   elements.endingModal.hidden = true;
   render();
   playTone(380);
 }
 
+function continueLife() {
+  if (!savedProgress) return;
+  state = savedProgress;
+  elements.introModal.hidden = true;
+  render();
+  if (state.ended) window.setTimeout(showEnding, 0);
+  playTone(380);
+}
+
 function restartLife() {
   localStorage.removeItem("life-rpg-progress");
   state = freshState();
+  savedProgress = null;
   elements.nameInput.value = state.name;
+  elements.continueButton.hidden = true;
+  elements.resumeSeparator.hidden = true;
   elements.endingModal.hidden = true;
   elements.introModal.hidden = false;
+  render();
   elements.nameInput.focus();
 }
 
@@ -537,23 +743,38 @@ function saveProgress() {
   }
 }
 
-function restoreProgress() {
+function readSavedProgress() {
   try {
     const saved = JSON.parse(localStorage.getItem("life-rpg-progress"));
-    if (!saved?.started || !Number.isInteger(saved.chapter) || saved.chapter >= chapters.length) return false;
+    if (
+      saved?.version !== GAME_VERSION ||
+      !saved.started ||
+      !Number.isInteger(saved.chapter) ||
+      saved.chapter >= chapters.length
+    ) {
+      localStorage.removeItem("life-rpg-progress");
+      return null;
+    }
     const restoredDollars = saved.dollars ?? saved.coins ?? freshState().dollars;
-    state = {
+    return {
       ...freshState(),
       ...saved,
       dollars: restoredDollars,
       tags: { ...freshState().tags, ...saved.tags },
     };
-    elements.nameInput.value = state.name;
-    elements.introModal.hidden = true;
-    return true;
   } catch {
-    return false;
+    return null;
   }
+}
+
+function offerSavedProgress(saved) {
+  savedProgress = saved;
+  elements.nameInput.value = saved.name;
+  elements.continueButton.hidden = false;
+  elements.resumeSeparator.hidden = false;
+  elements.continueLabel.textContent = saved.ended
+    ? `View ${saved.name}'s ending`
+    : `Continue ${saved.name} at age ${chapters[saved.chapter].age}`;
 }
 
 function playTone(frequency) {
@@ -588,6 +809,7 @@ async function copyEnding() {
 }
 
 elements.begin.addEventListener("click", startLife);
+elements.continueButton.addEventListener("click", continueLife);
 elements.nameInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") startLife();
 });
@@ -602,6 +824,6 @@ elements.sound.addEventListener("click", () => {
 });
 
 buildStaticUI();
-restoreProgress();
 render();
-if (state.ended) window.setTimeout(showEnding, 0);
+const restoredProgress = readSavedProgress();
+if (restoredProgress) offerSavedProgress(restoredProgress);

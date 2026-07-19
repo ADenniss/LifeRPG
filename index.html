@@ -31,7 +31,7 @@
       </div>
       <div class="wallet" aria-label="Current dollars">
         <span class="dollar" aria-hidden="true">$</span>
-        <span id="dollar-count">80</span>
+        <span id="dollar-count">0</span>
         <small>DOLLARS</small>
       </div>
       <button class="icon-button" id="sound-toggle" type="button" aria-label="Toggle sound">
@@ -50,7 +50,7 @@
               <circle class="age-dial__progress" id="age-ring" cx="60" cy="60" r="53" />
             </svg>
             <div class="age-dial__value">
-              <strong id="age-value">18</strong>
+              <strong id="age-value">0</strong>
               <span>YEARS</span>
             </div>
           </div>
@@ -126,12 +126,18 @@
         <div class="intro-card__logo">LIFE<i>/</i></div>
         <h2 id="intro-title">A human story,<br /><em>shaped by you.</em></h2>
         <p>Grow up. Make a living. Find your people. Lose your way. Begin again. See where one ordinary, extraordinary life can lead.</p>
+        <button class="continue-button" id="continue-button" type="button" hidden>
+          <span>CONTINUE SAVED LIFE</span>
+          <strong id="continue-label">Continue your story</strong>
+          <i>→</i>
+        </button>
+        <div class="resume-separator" id="resume-separator" hidden><span>OR START A NEW LIFE AT AGE 0</span></div>
         <label for="name-input">WHAT SHOULD WE CALL YOU?</label>
         <div class="name-entry">
           <input id="name-input" type="text" maxlength="16" value="Rowan" autocomplete="off" />
           <button id="begin-button" type="button">Begin this life <span>→</span></button>
         </div>
-        <span class="intro-card__note">A PLAYTHROUGH TAKES ABOUT 5 MINUTES</span>
+        <span class="intro-card__note">EVERY LIFE BEGINS AT AGE 0 · ABOUT 8–10 MINUTES</span>
       </div>
     </div>
 
