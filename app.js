@@ -5,7 +5,85 @@ const statDefinitions = [
   { key: "bonds", label: "BONDS", icon: "∞" },
 ];
 
-const GAME_VERSION = 4;
+const GAME_VERSION = 6;
+
+const relationshipDefinitions = [
+  { id: "family", name: "Robin", role: "FAMILY", unlockAge: 0, startingBond: 45, color: "#f3c64d" },
+  { id: "friend", name: "Alex", role: "FRIEND", unlockAge: 6, startingBond: 25, color: "#3f6f91" },
+  { id: "partner", name: "Jules", role: "PARTNER · CHOSEN FAMILY", unlockAge: 24, startingBond: 20, color: "#b7686d" },
+  { id: "younger", name: "Sam", role: "YOUNGER FAMILY", unlockAge: 52, startingBond: 20, color: "#69866f" },
+];
+
+const shopItems = [
+  { id: "sketchbook", name: "A good sketchbook", icon: "▤", minAge: 6, price: 10, color: "#e4a74c", copy: "A private place for unfinished thoughts.", effects: { wisdom: 4, purpose: 3 } },
+  { id: "bicycle", name: "A sturdy bicycle", icon: "○", minAge: 13, price: 20, color: "#f0643a", copy: "Freedom with two wheels and a bell.", effects: { vitality: 6, purpose: 2 } },
+  { id: "instrument", name: "A used instrument", icon: "♪", minAge: 18, price: 25, color: "#b7686d", copy: "Something to play badly until you play it well.", effects: { purpose: 8, bonds: 2 } },
+  { id: "laptop", name: "A capable laptop", icon: "□", minAge: 18, price: 35, color: "#8ca4b2", copy: "A tool for learning, working, and making ideas real.", effects: { wisdom: 7, purpose: 5 } },
+  { id: "pet", name: "Adopt a companion", icon: "♥", minAge: 24, price: 30, color: "#d98964", copy: "A small life that makes every home warmer.", effects: { vitality: 4, bonds: 7 }, relationshipEffects: { family: 4, partner: 5 } },
+  { id: "car", name: "A reliable car", icon: "→", minAge: 24, price: 45, color: "#7d8d91", copy: "Less glamorous than useful—and useful every day.", effects: { vitality: 5, purpose: 3 } },
+  { id: "camera", name: "A small camera", icon: "◉", minAge: 28, price: 30, color: "#f3c64d", copy: "A reason to notice what the days are made of.", effects: { wisdom: 6, purpose: 5 } },
+  { id: "home", name: "A home deposit", icon: "⌂", minAge: 31, price: 80, color: "#69866f", copy: "A stake in the ground and a key of your own.", effects: { vitality: 8, bonds: 8 }, relationshipEffects: { family: 5, partner: 8 } },
+  { id: "tools", name: "Workshop tools", icon: "×", minAge: 39, price: 40, color: "#c48b54", copy: "The pleasure of repairing and building things yourself.", effects: { purpose: 8, wisdom: 4 } },
+  { id: "journey", name: "A faraway ticket", icon: "↗", minAge: 45, price: 50, color: "#3f6f91", copy: "A place you have only seen on maps.", effects: { wisdom: 7, purpose: 8 }, relationshipEffects: { partner: 5, friend: 3 } },
+  { id: "garden", name: "A garden plot", icon: "✣", minAge: 52, price: 30, color: "#7f9879", copy: "A little earth that rewards patient attention.", effects: { vitality: 8, purpose: 5 } },
+  { id: "holiday", name: "A family holiday", icon: "☼", minAge: 58, price: 55, color: "#e4a74c", copy: "Shared days that will become shared stories.", effects: { bonds: 10, vitality: 3 }, relationshipEffects: { family: 8, friend: 5, partner: 8, younger: 8 } },
+  { id: "chair", name: "The perfect chair", icon: "⌑", minAge: 64, price: 20, color: "#8b8067", copy: "Comfort is allowed to become a serious priority.", effects: { vitality: 5, wisdom: 2 } },
+  { id: "album", name: "A memory album", icon: "◇", minAge: 74, price: 15, color: "#a87571", copy: "Proof that ordinary days were never ordinary.", effects: { bonds: 6, wisdom: 4 }, relationshipEffects: { family: 6, friend: 6, partner: 6, younger: 6 } },
+];
+
+const choiceBondEffects = {
+  "Reach toward the light": { family: 2 },
+  "Hold the waiting hand": { family: 8 },
+  "Cry with all your might": { family: 3 },
+  "Ask one hundred questions": { family: 2 },
+  "Make room for a shy kid": { friend: 10 },
+  "Build a secret hideout": { friend: 3 },
+  "Stand beside them": { friend: 8 },
+  "Find a grown-up": { family: 3, friend: 3 },
+  "Check on them afterward": { friend: 7 },
+  "Join the team": { friend: 8 },
+  "Disappear into books": { friend: -3 },
+  "Start a tiny business": { family: 2 },
+  "Study what fascinates you": { family: 2, friend: -1 },
+  "Learn a useful craft": { family: 3 },
+  "Start earning now": { family: 3 },
+  "Try again differently": { friend: 2 },
+  "Ask a mentor for honesty": { family: 2 },
+  "Choose a new direction": { friend: 3 },
+  "Take the steady road": { family: 4, partner: 3 },
+  "Bet on your strange idea": { family: -2, partner: 2 },
+  "Go somewhere unknown": { friend: 5, partner: 2 },
+  "Organize the neighbors": { friend: 6, partner: 3 },
+  "Offer your useful skills": { friend: 4 },
+  "Focus on your own future": { friend: -2, partner: -2 },
+  "Build a home with someone": { family: 4, partner: 15 },
+  "Protect your independence": { friend: 3, partner: -7 },
+  "Gather a chosen family": { friend: 10, partner: 7 },
+  "Spend your safety net": { family: 4, friend: 2, partner: 4 },
+  "Let people carry you": { family: 8, friend: 8, partner: 8 },
+  "Push straight through": { family: -4, friend: -4, partner: -4 },
+  "Begin the second career": { friend: 4, partner: -3 },
+  "Protect what you built": { family: 3, partner: 6 },
+  "Make a smaller space for it": { partner: 3 },
+  "Teach what you know": { friend: 3, younger: 10 },
+  "Build something lasting": { younger: 4 },
+  "Choose a smaller life": { family: 4, friend: 4, partner: 4, younger: 4 },
+  "Step back from work": { family: 12, partner: 3 },
+  "Pay for excellent help": { family: 8, partner: 3 },
+  "Bring the family together": { family: 7, friend: 7, partner: 7, younger: 7 },
+  "Open the little shop": { friend: 3, partner: 3 },
+  "Care for someone you love": { family: 12 },
+  "Consult on your own terms": { younger: 6 },
+  "Write down the story": { younger: 8 },
+  "Give away what you can": { family: 6, friend: 6, partner: 6, younger: 6 },
+  "Take one last adventure": { friend: 4, partner: 4 },
+  "Adapt the old home": { partner: 3, younger: 3 },
+  "Move closer to your people": { family: 7, friend: 7, partner: 7, younger: 7 },
+  "Accept help with grace": { family: 5, friend: 5, partner: 5, younger: 5 },
+  "Gather everyone close": { family: 10, friend: 10, partner: 10, younger: 10 },
+  "Make peace with unfinished things": { family: 4, friend: 4, partner: 4, younger: 4 },
+  "Watch one more sunrise": { friend: 2, partner: 3 },
+};
 
 const chapters = [
   {
@@ -79,6 +157,43 @@ const chapters = [
         effects: { vitality: 7, wisdom: 4, purpose: 4 },
         tags: { builder: 2, explorer: 1 },
         memory: "You built a world of your own and appointed yourself its keeper.",
+      },
+    ],
+  },
+  {
+    age: 9,
+    stage: "CONSCIENCE",
+    title: "Something is not fair.",
+    type: "SMALL COURAGE",
+    copy: "On the playground, a crowd has found someone smaller to laugh at. You could keep walking. You could also discover what kind of person you want to be.",
+    quote: "Character first appears in moments no one planned for.",
+    caption: "THE FIRST STAND",
+    symbol: "!",
+    color: "#c5735f",
+    choices: [
+      {
+        title: "Stand beside them",
+        copy: "Make it clear that the smaller kid is not standing alone.",
+        cost: 0,
+        effects: { bonds: 8, purpose: 6, vitality: -2 },
+        tags: { connector: 2, survivor: 1 },
+        memory: "You discovered that courage could be as simple as standing beside someone.",
+      },
+      {
+        title: "Find a grown-up",
+        copy: "Ask someone with more power to use it well.",
+        cost: 0,
+        effects: { wisdom: 7, bonds: 4, purpose: 3 },
+        tags: { scholar: 1, connector: 1 },
+        memory: "You learned that asking for help could also be an act of courage.",
+      },
+      {
+        title: "Check on them afterward",
+        copy: "Avoid the crowd, then offer quiet kindness when it has passed.",
+        cost: 0,
+        effects: { bonds: 6, wisdom: 5, vitality: 2 },
+        tags: { connector: 2 },
+        memory: "Your kindness arrived quietly, but it arrived when someone needed it.",
       },
     ],
   },
@@ -157,6 +272,43 @@ const chapters = [
     ],
   },
   {
+    age: 21,
+    stage: "SETBACK",
+    title: "The first plan falls apart.",
+    type: "CHALLENGE",
+    copy: "The rejection is brief and painfully polite. A door you had already imagined walking through closes. Failure feels personal before it feels useful.",
+    quote: "A closed door can be an ending, a lesson, or a redirection.",
+    caption: "TRYING AGAIN",
+    symbol: "×",
+    color: "#8d6b72",
+    choices: [
+      {
+        title: "Try again differently",
+        copy: "Study what failed, change the approach, and return.",
+        cost: -10,
+        effects: { wisdom: 9, purpose: 8, vitality: -3 },
+        tags: { survivor: 2, achiever: 1 },
+        memory: "You learned to let failure edit the plan without writing the ending.",
+      },
+      {
+        title: "Ask a mentor for honesty",
+        copy: "Invite the advice you may not want but probably need.",
+        cost: 0,
+        effects: { wisdom: 11, bonds: 5, purpose: 4 },
+        tags: { scholar: 1, mentor: 1 },
+        memory: "You found someone willing to tell you the useful truth.",
+      },
+      {
+        title: "Choose a new direction",
+        copy: "Stop forcing the locked door and notice the open window.",
+        cost: 20,
+        effects: { purpose: 7, vitality: 6, wisdom: 4 },
+        tags: { explorer: 2 },
+        memory: "You released one future and made room for another.",
+      },
+    ],
+  },
+  {
     age: 24,
     stage: "MOTION",
     title: "A chance with no guarantees.",
@@ -190,6 +342,43 @@ const chapters = [
         effects: { purpose: 12, wisdom: 14, bonds: 4 },
         tags: { explorer: 3 },
         memory: "You left the map and discovered a larger world.",
+      },
+    ],
+  },
+  {
+    age: 28,
+    stage: "COMMUNITY",
+    title: "Your neighborhood needs something.",
+    type: "CALL TO ACTION",
+    copy: "The shared garden is closing. Everyone agrees that someone should do something, but the room becomes very quiet when someone asks who.",
+    quote: "A community is built by whoever decides to begin.",
+    caption: "SHOWING UP",
+    symbol: "+",
+    color: "#7f9879",
+    choices: [
+      {
+        title: "Organize the neighbors",
+        copy: "Make the calls, hold the meetings, and keep the gate open.",
+        cost: -15,
+        effects: { bonds: 12, purpose: 9, vitality: -4 },
+        tags: { connector: 2, builder: 1 },
+        memory: "You turned a group of nearby strangers into neighbors.",
+      },
+      {
+        title: "Offer your useful skills",
+        copy: "Contribute what you know without needing to lead.",
+        cost: 0,
+        effects: { bonds: 7, wisdom: 5, purpose: 6 },
+        tags: { builder: 1, connector: 1 },
+        memory: "You learned that contribution did not have to come with a title.",
+      },
+      {
+        title: "Focus on your own future",
+        copy: "Protect the time and money your plans currently need.",
+        cost: 25,
+        effects: { purpose: 6, vitality: 4, bonds: -5 },
+        tags: { achiever: 2 },
+        memory: "You kept your focus narrow so your own future could grow.",
       },
     ],
   },
@@ -268,6 +457,43 @@ const chapters = [
     ],
   },
   {
+    age: 45,
+    stage: "MIDLIFE",
+    title: "An unlived life comes calling.",
+    type: "CROSSROADS",
+    copy: "A possibility you buried years ago returns, inconvenient and bright. Following it would disrupt the life you built. Ignoring it would cost something too.",
+    quote: "Not every dream expires when postponed.",
+    caption: "THE SECOND DOOR",
+    symbol: "Ⅱ",
+    color: "#c48b54",
+    choices: [
+      {
+        title: "Begin the second career",
+        copy: "Accept being new, uncertain, and awake again.",
+        cost: -40,
+        effects: { purpose: 15, wisdom: 7, vitality: -5 },
+        tags: { explorer: 2, achiever: 1 },
+        memory: "You became a beginner at an age when certainty was expected.",
+      },
+      {
+        title: "Protect what you built",
+        copy: "Choose the commitments that already carry your name.",
+        cost: 40,
+        effects: { bonds: 7, purpose: 4, vitality: 3 },
+        tags: { builder: 2, achiever: 1 },
+        memory: "You chose depth over novelty and strengthened what was already yours.",
+      },
+      {
+        title: "Make a smaller space for it",
+        copy: "Give the dream evenings and weekends instead of everything.",
+        cost: -15,
+        effects: { purpose: 10, wisdom: 5, vitality: -2 },
+        tags: { gardener: 1, explorer: 1 },
+        memory: "You found that a dream could breathe without consuming the whole room.",
+      },
+    ],
+  },
+  {
     age: 52,
     stage: "MEANING",
     title: "Enough becomes a question.",
@@ -301,6 +527,43 @@ const chapters = [
         effects: { vitality: 19, bonds: 12, purpose: 8 },
         tags: { gardener: 3 },
         memory: "You discovered how spacious a smaller life could feel.",
+      },
+    ],
+  },
+  {
+    age: 58,
+    stage: "CARE",
+    title: "Someone you love needs you.",
+    type: "FAMILY CHALLENGE",
+    copy: "The calls become more frequent. Appointments appear on your calendar. Love, once abstract and easy to declare, becomes a question of hours, money, and presence.",
+    quote: "Care is love translated into ordinary verbs.",
+    caption: "THE WORK OF LOVE",
+    symbol: "⌂",
+    color: "#a87571",
+    choices: [
+      {
+        title: "Step back from work",
+        copy: "Trade income and momentum for time beside them.",
+        cost: -35,
+        effects: { bonds: 15, wisdom: 7, vitality: -7 },
+        tags: { connector: 2, survivor: 1 },
+        memory: "You rearranged your life so someone you loved would not face theirs alone.",
+      },
+      {
+        title: "Pay for excellent help",
+        copy: "Use what you earned to bring skill and steadiness into the room.",
+        cost: -55,
+        effects: { bonds: 9, vitality: 8, wisdom: 5 },
+        tags: { achiever: 1, connector: 1 },
+        memory: "You turned money into care and made space to remain family.",
+      },
+      {
+        title: "Bring the family together",
+        copy: "Share the work honestly instead of carrying it silently.",
+        cost: 0,
+        effects: { bonds: 12, wisdom: 8, vitality: 2 },
+        tags: { connector: 2, mentor: 1 },
+        memory: "You made care a shared promise instead of a private burden.",
       },
     ],
   },
@@ -379,6 +642,43 @@ const chapters = [
     ],
   },
   {
+    age: 81,
+    stage: "ADAPTATION",
+    title: "The world asks you to slow down.",
+    type: "LATE-LIFE CHALLENGE",
+    copy: "Stairs become negotiations. Night driving loses its ease. Independence, once automatic, now asks to be redesigned rather than surrendered.",
+    quote: "Accepting change is not the same as giving up.",
+    caption: "A NEW RHYTHM",
+    symbol: "⌁",
+    color: "#7d8d91",
+    choices: [
+      {
+        title: "Adapt the old home",
+        copy: "Change the space so the life inside it can continue.",
+        cost: -30,
+        effects: { vitality: 10, wisdom: 5, purpose: 3 },
+        tags: { builder: 1, survivor: 1 },
+        memory: "You changed your surroundings without surrendering your sense of home.",
+      },
+      {
+        title: "Move closer to your people",
+        copy: "Let convenience and company matter more than old pride.",
+        cost: -15,
+        effects: { bonds: 13, vitality: 6, purpose: 5 },
+        tags: { connector: 2, gardener: 1 },
+        memory: "You traded a little independence for many more ordinary hellos.",
+      },
+      {
+        title: "Accept help with grace",
+        copy: "Allow receiving care to become another form of giving trust.",
+        cost: 0,
+        effects: { wisdom: 10, bonds: 9, vitality: 4 },
+        tags: { survivor: 1, scholar: 1 },
+        memory: "You learned that receiving could be its own kind of generosity.",
+      },
+    ],
+  },
+  {
     age: 88,
     stage: "LEGACY",
     title: "One ordinary morning remains.",
@@ -419,10 +719,26 @@ const chapters = [
 
 const endings = [
   {
+    id: "phoenix",
+    title: "The Weathered Gold",
+    symbol: "≈",
+    test: (s) => s.tags.survivor >= 8 || s.vitality < 20,
+    copy: "Life asked more of you than seemed fair. Still, you made something tender from the wreckage and refused to let hardship have the final word.",
+    quote: "You were not unbroken. You were beautifully remade.",
+  },
+  {
+    id: "garden",
+    title: "The Quiet Garden",
+    symbol: "❋",
+    test: (s) => s.tags.gardener >= 3 && s.vitality >= 55,
+    copy: "Your life did not need to be loud to be full. You tended to your days and your people, and both grew toward the light.",
+    quote: "Enough was not a compromise. It was an art.",
+  },
+  {
     id: "beacon",
     title: "The Human Beacon",
     symbol: "✦",
-    test: (s) => s.bonds >= 75 && s.purpose >= 68,
+    test: (s) => s.tags.connector >= 9 && s.bonds >= 85 && s.purpose >= 70,
     copy: "People remember how the room changed when you entered it. You made others feel seen, then showed them how to see one another.",
     quote: "A life shared became a light multiplied.",
   },
@@ -430,7 +746,7 @@ const endings = [
     id: "architect",
     title: "The Lasting Architect",
     symbol: "▱",
-    test: (s) => s.dollars >= 150 || (s.tags.builder >= 4 && s.purpose >= 72),
+    test: (s) => s.dollars + s.assetValue >= 180 || (s.tags.builder >= 7 && s.purpose >= 78),
     copy: "You turned patience and effort into things that endured. What you built kept sheltering people long after you stepped away.",
     quote: "You measured wealth by what could keep giving.",
   },
@@ -438,7 +754,7 @@ const endings = [
     id: "wild",
     title: "The Wild Compass",
     symbol: "↗",
-    test: (s) => s.tags.explorer >= 5 && s.purpose >= 65,
+    test: (s) => s.tags.explorer >= 8 && s.purpose >= 72,
     copy: "You never confused the familiar with the necessary. Your life crossed borders, literal and otherwise, and came home larger each time.",
     quote: "Wonder was the direction you trusted most.",
   },
@@ -446,25 +762,9 @@ const endings = [
     id: "sage",
     title: "The Open Book",
     symbol: "◌",
-    test: (s) => s.wisdom >= 82 || s.tags.scholar + s.tags.mentor >= 7,
+    test: (s) => s.wisdom >= 90 && s.tags.scholar + s.tags.mentor >= 8,
     copy: "You kept learning, especially when certainty would have been easier. In time, people sought you not for answers, but for better questions.",
     quote: "Every chapter taught you how much remained unread.",
-  },
-  {
-    id: "garden",
-    title: "The Quiet Garden",
-    symbol: "❋",
-    test: (s) => s.vitality >= 70 && s.bonds >= 60,
-    copy: "Your life did not need to be loud to be full. You tended to your days and your people, and both grew toward the light.",
-    quote: "Enough was not a compromise. It was an art.",
-  },
-  {
-    id: "phoenix",
-    title: "The Weathered Gold",
-    symbol: "≈",
-    test: (s) => s.tags.survivor >= 3 || s.vitality < 45,
-    copy: "Life asked more of you than seemed fair. Still, you made something tender from the wreckage and refused to let hardship have the final word.",
-    quote: "You were not unbroken. You were beautifully remade.",
   },
   {
     id: "mosaic",
@@ -483,6 +783,8 @@ const freshState = () => ({
   chapter: 0,
   ended: false,
   dollars: 0,
+  assetValue: 0,
+  inventory: [],
   vitality: 0,
   purpose: 0,
   wisdom: 0,
@@ -497,6 +799,12 @@ const freshState = () => ({
     mentor: 0,
     gardener: 0,
   },
+  relationships: Object.fromEntries(
+    relationshipDefinitions.map((person) => [
+      person.id,
+      { bond: person.startingBond, lastConnectedChapter: -1 },
+    ]),
+  ),
   memories: [],
 });
 
@@ -519,6 +827,7 @@ const elements = {
   endingModal: document.querySelector("#ending-modal"),
   endingQuote: document.querySelector("#ending-quote"),
   endingStats: document.querySelector("#ending-stats"),
+  endingLedger: document.querySelector("#ending-ledger"),
   endingSymbol: document.querySelector("#ending-symbol"),
   endingTitle: document.querySelector("#ending-title"),
   eventCard: document.querySelector("#event-card"),
@@ -529,16 +838,26 @@ const elements = {
   eventVisual: document.querySelector("#event-visual"),
   headerChapter: document.querySelector("#header-chapter"),
   introModal: document.querySelector("#intro-modal"),
+  inventoryCount: document.querySelector("#inventory-count"),
+  inventoryList: document.querySelector("#inventory-list"),
   nameInput: document.querySelector("#name-input"),
   pathCount: document.querySelector("#path-count"),
   pathMarkers: document.querySelector("#path-markers"),
   pathSummary: document.querySelector("#path-summary"),
   playAgain: document.querySelector("#play-again"),
+  peopleCount: document.querySelector("#people-count"),
+  peopleList: document.querySelector("#people-list"),
+  peopleModal: document.querySelector("#people-modal"),
+  peopleToggle: document.querySelector("#people-toggle"),
   playerName: document.querySelector("#player-name"),
   playerTitle: document.querySelector("#player-title"),
   restart: document.querySelector("#restart-button"),
   resumeSeparator: document.querySelector("#resume-separator"),
   sound: document.querySelector("#sound-toggle"),
+  shopBalance: document.querySelector("#shop-balance"),
+  shopList: document.querySelector("#shop-list"),
+  shopModal: document.querySelector("#shop-modal"),
+  shopToggle: document.querySelector("#shop-toggle"),
   stageLabel: document.querySelector("#stage-label"),
   stats: document.querySelector("#stats"),
   toast: document.querySelector("#toast"),
@@ -604,13 +923,167 @@ function render() {
   elements.pathCount.textContent = `${state.memories.length} ${state.memories.length === 1 ? "choice" : "choices"}`;
   elements.pathSummary.textContent = state.memories.at(-1) || "Your story has yet to be written.";
   elements.playerTitle.textContent = getPlayerTitle();
+  elements.inventoryCount.textContent = state.inventory.length;
+  elements.peopleCount.textContent = getUnlockedRelationships().length;
 
   elements.choices.innerHTML = chapter.choices.map(renderChoice).join("");
   elements.choices.querySelectorAll(".choice").forEach((button, index) => {
     button.addEventListener("click", () => choose(index));
   });
 
+  renderRelationships();
+  renderShop();
+
   saveProgress();
+}
+
+function getUnlockedRelationships() {
+  const age = chapters[state.chapter].age;
+  return relationshipDefinitions.filter((person) => person.unlockAge <= age);
+}
+
+function getBondLevel(value) {
+  if (value >= 80) return "UNBREAKABLE";
+  if (value >= 60) return "TRUSTED";
+  if (value >= 40) return "CLOSE";
+  if (value >= 20) return "FAMILIAR";
+  return "DISTANT";
+}
+
+function renderRelationships() {
+  const age = chapters[state.chapter].age;
+  elements.peopleList.innerHTML = relationshipDefinitions
+    .map((person) => {
+      const unlocked = person.unlockAge <= age;
+      if (!unlocked) {
+        return `
+          <article class="person-card person-card--locked">
+            <div class="person-card__avatar">?</div>
+            <div class="person-card__main">
+              <div class="person-card__heading"><h3>Someone ahead</h3><span>LOCKED</span></div>
+            </div>
+            <p>THIS RELATIONSHIP ENTERS YOUR LIFE AT AGE ${person.unlockAge}</p>
+          </article>`;
+      }
+
+      const relationship = state.relationships[person.id];
+      const connected = relationship.lastConnectedChapter === state.chapter;
+      return `
+        <article class="person-card">
+          <div class="person-card__avatar" style="--person-color: ${person.color}">${person.name[0]}</div>
+          <div class="person-card__main">
+            <div class="person-card__heading"><h3>${person.name}</h3><span>${person.role}</span></div>
+            <div class="person-card__bond-label"><span>${getBondLevel(relationship.bond)}</span><strong>${relationship.bond} / 100</strong></div>
+            <div class="bond-track"><i style="width: ${relationship.bond}%"></i></div>
+            <button class="bond-action" type="button" data-bond-person="${person.id}" ${connected || state.ended ? "disabled" : ""}>
+              <span>${connected ? "TIME SPENT THIS CHAPTER" : "SPEND TIME TOGETHER"}</span><strong>${connected ? "✓" : "+7"}</strong>
+            </button>
+          </div>
+        </article>`;
+    })
+    .join("");
+
+  elements.peopleList.querySelectorAll("[data-bond-person]").forEach((button) => {
+    button.addEventListener("click", () => spendTimeWith(button.dataset.bondPerson));
+  });
+}
+
+function spendTimeWith(personId) {
+  const person = relationshipDefinitions.find((candidate) => candidate.id === personId);
+  const relationship = state.relationships[personId];
+  if (
+    !person ||
+    !relationship ||
+    person.unlockAge > chapters[state.chapter].age ||
+    relationship.lastConnectedChapter === state.chapter ||
+    state.ended
+  ) return;
+
+  relationship.bond = clamp(relationship.bond + 7);
+  relationship.lastConnectedChapter = state.chapter;
+  state.bonds = clamp(state.bonds + 2);
+  showToast(`Time with ${person.name} strengthened your bond`);
+  playTone(470);
+  render();
+}
+
+function describeEffects(item) {
+  const labels = { vitality: "VITALITY", purpose: "PURPOSE", wisdom: "WISDOM", bonds: "BONDS" };
+  return Object.entries(item.effects)
+    .map(([key, value]) => `+${value} ${labels[key]}`)
+    .join(" · ");
+}
+
+function renderShop() {
+  const age = chapters[state.chapter].age;
+  elements.shopBalance.textContent = `$${state.dollars}`;
+  elements.shopList.innerHTML = shopItems
+    .map((item) => {
+      const owned = state.inventory.includes(item.id);
+      const ageLocked = age < item.minAge;
+      const cannotAfford = state.dollars < item.price;
+      const buttonLabel = owned ? "OWNED ✓" : ageLocked ? `AGE ${item.minAge}` : cannotAfford ? `NEED $${item.price}` : `BUY $${item.price}`;
+      return `
+        <article class="shop-item ${owned ? "shop-item--owned" : ""}">
+          <div class="shop-item__icon" style="--item-color: ${item.color}">${item.icon}</div>
+          <h3>${item.name}</h3>
+          <span class="shop-item__age">FROM AGE ${item.minAge}</span>
+          <p>${item.copy}</p>
+          <span class="shop-item__effects">${describeEffects(item)}</span>
+          <button class="buy-button" type="button" data-buy-item="${item.id}" ${owned || ageLocked || cannotAfford || state.ended ? "disabled" : ""}>${buttonLabel}</button>
+        </article>`;
+    })
+    .join("");
+
+  const ownedItems = state.inventory
+    .map((itemId) => shopItems.find((item) => item.id === itemId))
+    .filter(Boolean);
+  elements.inventoryList.innerHTML = ownedItems.length
+    ? ownedItems.map((item) => `<span class="inventory-chip">${item.icon} ${item.name}</span>`).join("")
+    : "Nothing yet. Earn dollars and choose what matters to you.";
+
+  elements.shopList.querySelectorAll("[data-buy-item]").forEach((button) => {
+    button.addEventListener("click", () => buyItem(button.dataset.buyItem));
+  });
+}
+
+function buyItem(itemId) {
+  const item = shopItems.find((candidate) => candidate.id === itemId);
+  if (
+    !item ||
+    state.inventory.includes(item.id) ||
+    item.minAge > chapters[state.chapter].age ||
+    state.dollars < item.price ||
+    state.ended
+  ) return;
+
+  state.dollars -= item.price;
+  state.assetValue += item.price;
+  state.inventory.push(item.id);
+  Object.entries(item.effects).forEach(([key, value]) => {
+    state[key] = clamp(state[key] + value);
+  });
+  Object.entries(item.relationshipEffects || {}).forEach(([personId, value]) => {
+    if (state.relationships[personId]) {
+      state.relationships[personId].bond = clamp(state.relationships[personId].bond + value);
+    }
+  });
+  showToast(`${item.name} added to your life`);
+  playTone(540);
+  render();
+}
+
+function applyChoiceRelationshipEffects(choice) {
+  const age = chapters[state.chapter].age;
+  const explicitEffects = choiceBondEffects[choice.title] || {};
+  relationshipDefinitions.forEach((person) => {
+    if (person.unlockAge > age) return;
+    const fallback = choice.effects.bonds > 0
+      ? Math.max(1, Math.round(choice.effects.bonds / 8))
+      : choice.effects.bonds < 0 ? -2 : -1;
+    const change = explicitEffects[person.id] ?? fallback;
+    state.relationships[person.id].bond = clamp(state.relationships[person.id].bond + change);
+  });
 }
 
 function renderChoice(choice, index) {
@@ -644,6 +1117,7 @@ function choose(index) {
   Object.entries(choice.tags).forEach(([key, value]) => {
     state.tags[key] += value;
   });
+  applyChoiceRelationshipEffects(choice);
   state.memories.push(choice.memory);
 
   if (state.chapter === chapters.length - 1) {
@@ -695,6 +1169,10 @@ function showEnding() {
         </div>`,
     )
     .join("");
+  const trustedPeople = relationshipDefinitions.filter(
+    (person) => state.relationships[person.id].bond >= 60,
+  ).length;
+  elements.endingLedger.textContent = `${state.inventory.length} POSSESSIONS KEPT · $${state.assetValue} OWNED VALUE · ${trustedPeople} CLOSE BONDS`;
   elements.endingModal.hidden = false;
   elements.endingModal.dataset.ending = ending.id;
   playTone(520);
@@ -708,6 +1186,7 @@ function startLife() {
   savedProgress = null;
   elements.introModal.hidden = true;
   elements.endingModal.hidden = true;
+  closeSystemModals();
   render();
   playTone(380);
 }
@@ -716,6 +1195,7 @@ function continueLife() {
   if (!savedProgress) return;
   state = savedProgress;
   elements.introModal.hidden = true;
+  closeSystemModals();
   render();
   if (state.ended) window.setTimeout(showEnding, 0);
   playTone(380);
@@ -729,6 +1209,7 @@ function restartLife() {
   elements.continueButton.hidden = true;
   elements.resumeSeparator.hidden = true;
   elements.endingModal.hidden = true;
+  closeSystemModals();
   elements.introModal.hidden = false;
   render();
   elements.nameInput.focus();
@@ -756,11 +1237,23 @@ function readSavedProgress() {
       return null;
     }
     const restoredDollars = saved.dollars ?? saved.coins ?? freshState().dollars;
+    const defaults = freshState();
+    const restoredInventory = Array.isArray(saved.inventory) ? saved.inventory : [];
     return {
-      ...freshState(),
+      ...defaults,
       ...saved,
       dollars: restoredDollars,
-      tags: { ...freshState().tags, ...saved.tags },
+      assetValue: saved.assetValue ?? restoredInventory.reduce((total, itemId) => {
+        return total + (shopItems.find((item) => item.id === itemId)?.price || 0);
+      }, 0),
+      inventory: restoredInventory,
+      tags: { ...defaults.tags, ...saved.tags },
+      relationships: Object.fromEntries(
+        relationshipDefinitions.map((person) => [
+          person.id,
+          { ...defaults.relationships[person.id], ...saved.relationships?.[person.id] },
+        ]),
+      ),
     };
   } catch {
     return null;
@@ -800,12 +1293,28 @@ async function copyEnding() {
   const text = `${state.name}'s LIFE/ ending: ${elements.endingTitle.textContent} — ${elements.endingQuote.textContent}`;
   try {
     await navigator.clipboard.writeText(text);
-    elements.toast.textContent = "Ending copied";
+    showToast("Ending copied");
   } catch {
-    elements.toast.textContent = "Could not access clipboard";
+    showToast("Could not access clipboard");
   }
+}
+
+function showToast(message) {
+  elements.toast.textContent = message;
   elements.toast.classList.add("is-visible");
-  window.setTimeout(() => elements.toast.classList.remove("is-visible"), 1800);
+  window.clearTimeout(showToast.timeout);
+  showToast.timeout = window.setTimeout(() => elements.toast.classList.remove("is-visible"), 1800);
+}
+
+function openSystemModal(modal) {
+  if (!state.started) return;
+  closeSystemModals();
+  modal.hidden = false;
+}
+
+function closeSystemModals() {
+  elements.peopleModal.hidden = true;
+  elements.shopModal.hidden = true;
 }
 
 elements.begin.addEventListener("click", startLife);
@@ -816,6 +1325,14 @@ elements.nameInput.addEventListener("keydown", (event) => {
 elements.restart.addEventListener("click", restartLife);
 elements.playAgain.addEventListener("click", restartLife);
 elements.copyEnding.addEventListener("click", copyEnding);
+elements.peopleToggle.addEventListener("click", () => openSystemModal(elements.peopleModal));
+elements.shopToggle.addEventListener("click", () => openSystemModal(elements.shopModal));
+document.querySelectorAll("[data-close-modal]").forEach((button) => {
+  button.addEventListener("click", closeSystemModals);
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeSystemModals();
+});
 elements.sound.addEventListener("click", () => {
   soundEnabled = !soundEnabled;
   elements.sound.classList.toggle("is-muted", !soundEnabled);

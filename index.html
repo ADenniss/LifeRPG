@@ -34,6 +34,16 @@
         <span id="dollar-count">0</span>
         <small>DOLLARS</small>
       </div>
+      <button class="system-button" id="people-toggle" type="button" aria-label="Open relationships">
+        <span class="system-button__icon" aria-hidden="true">∞</span>
+        <span class="system-button__label">PEOPLE</span>
+        <i id="people-count">1</i>
+      </button>
+      <button class="system-button" id="shop-toggle" type="button" aria-label="Open lifetime shop">
+        <span class="system-button__icon" aria-hidden="true">◇</span>
+        <span class="system-button__label">SHOP</span>
+        <i id="inventory-count">0</i>
+      </button>
       <button class="icon-button" id="sound-toggle" type="button" aria-label="Toggle sound">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M5 9v6h4l5 4V5L9 9H5Zm12.5 3a5.5 5.5 0 0 0-2-4.24v8.48A5.5 5.5 0 0 0 17.5 12Z" />
@@ -80,7 +90,7 @@
 
       <section class="story-panel" aria-live="polite">
         <div class="story-progress">
-          <span id="chapter-label">CHAPTER 01 / 06</span>
+          <span id="chapter-label">CHAPTER 01 / 17</span>
           <div class="story-progress__line"><i id="chapter-progress"></i></div>
           <span id="stage-label">BECOMING</span>
         </div>
@@ -137,7 +147,7 @@
           <input id="name-input" type="text" maxlength="16" value="Rowan" autocomplete="off" />
           <button id="begin-button" type="button">Begin this life <span>→</span></button>
         </div>
-        <span class="intro-card__note">EVERY LIFE BEGINS AT AGE 0 · ABOUT 8–10 MINUTES</span>
+        <span class="intro-card__note">17 LIFE CHOICES · ABOUT 10 MINUTES</span>
       </div>
     </div>
 
@@ -150,9 +160,46 @@
         <p id="ending-copy"></p>
         <blockquote id="ending-quote"></blockquote>
         <div class="ending-stats" id="ending-stats"></div>
+        <p class="ending-ledger" id="ending-ledger"></p>
         <div class="ending-actions">
           <button class="primary-button" id="play-again" type="button">Live another life <span>↻</span></button>
           <button class="share-button" id="copy-ending" type="button">Copy my ending</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal system-modal" id="people-modal" role="dialog" aria-modal="true" aria-labelledby="people-title" hidden>
+      <button class="modal__backdrop" type="button" data-close-modal="people-modal" aria-label="Close relationships"></button>
+      <div class="modal__card system-card">
+        <header class="system-card__header">
+          <div>
+            <span class="eyebrow">THE PEOPLE IN YOUR LIFE</span>
+            <h2 id="people-title">Relationships</h2>
+            <p>Time and attention turn familiarity into trust.</p>
+          </div>
+          <button class="modal-close" type="button" data-close-modal="people-modal" aria-label="Close relationships">×</button>
+        </header>
+        <div class="people-list" id="people-list"></div>
+        <p class="system-card__footnote">You can spend time with each person once per life chapter.</p>
+      </div>
+    </div>
+
+    <div class="modal system-modal" id="shop-modal" role="dialog" aria-modal="true" aria-labelledby="shop-title" hidden>
+      <button class="modal__backdrop" type="button" data-close-modal="shop-modal" aria-label="Close lifetime shop"></button>
+      <div class="modal__card system-card system-card--shop">
+        <header class="system-card__header">
+          <div>
+            <span class="eyebrow">SPEND ON WHAT MATTERS</span>
+            <h2 id="shop-title">Lifetime shop</h2>
+            <p>Useful things, small joys, and memories worth keeping.</p>
+          </div>
+          <div class="shop-balance"><span>AVAILABLE</span><strong id="shop-balance">$0</strong></div>
+          <button class="modal-close" type="button" data-close-modal="shop-modal" aria-label="Close lifetime shop">×</button>
+        </header>
+        <div class="shop-list" id="shop-list"></div>
+        <div class="inventory-strip">
+          <span class="eyebrow">YOUR THINGS</span>
+          <div id="inventory-list">Nothing yet.</div>
         </div>
       </div>
     </div>
